@@ -1,0 +1,49 @@
+<div class="register-container">
+  <mat-card class="register-card">
+    <mat-card-header class="mat-header">
+      <mat-card-title class="mat-header-title">
+        Registro
+      </mat-card-title>
+      <mat-card-subtitle>
+        Insira seus dados para registrar-se
+      </mat-card-subtitle>
+    </mat-card-header>
+    <form [formGroup]="registrarForm" (ngSubmit)="registrarUsuario()">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nome ou Apelido</mat-label>
+        <input matInput formControlName="nome" type="text">
+        <mat-error *ngIf="registrarForm.get('nome')?.hasError('required')">
+          Nome/Apelido é obrigatorio
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email">
+        <mat-error *ngIf="registrarForm.get('email')?.hasError('required')">
+          Email é obrigatório
+        </mat-error>
+        <mat-error *ngIf="registrarForm.get('email')?.hasError('email')">
+          Email inválido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Senha</mat-label>
+        <input matInput formControlName="senha" type="password">
+        <mat-error *ngIf="registrarForm.get('senha')?.hasError('required')">
+          Senha é obrigatória
+        </mat-error>
+        <mat-error *ngIf="registrarForm.get('senha')?.hasError('minlength')">
+          A senha deve ter pelo menos 6 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit"
+        [disabled]="registrarForm.invalid || exibirProgressBar">Registrar</button>
+    </form>
+    <button mat-button color="accent" (click)="voltarParaLogin()" class="btn-voltar">Voltar para o Login</button>
+    <mat-progress-bar mode="indeterminate" color="primary" *ngIf="exibirProgressBar"></mat-progress-bar>
+  </mat-card>
+</div>
