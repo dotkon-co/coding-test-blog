@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+  <span>Blog Simples</span>
+  <span class="spacer"></span>
+  <button mat-button (click)="abrirModalAddEditPost()">
+    <mat-icon>add_circle_outline</mat-icon>
+    Nova Postagem
+  </button>
+  <button mat-button (click)="deslogarUsuario()">
+    <mat-icon>logout</mat-icon>
+    Logout
+  </button>
+</mat-toolbar>
+<mat-progress-bar mode="indeterminate" color="primary" *ngIf="exibirProgressBar"></mat-progress-bar>
+
+<div class="post-list-container">
+  <mat-card *ngFor="let postagem of postagens" class="post-card">
+    <mat-card-header>
+      <mat-card-title>{{ postagem.titulo }}</mat-card-title>
+      <mat-card-subtitle>{{ postagem.autorNome }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ postagem.conteudo }}</p>
+    </mat-card-content>
+    <mat-card-actions *ngIf="podeEditarExcluir(postagem.autorId)">
+      <button mat-button color="primary" (click)="editarPostagem(postagem)">Editar</button>
+      <button mat-button color="warn" (click)="excluirPostagem(postagem.postId)">Excluir</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
