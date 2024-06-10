@@ -1,0 +1,40 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header class="mat-header">
+      <mat-card-title class="mat-header-title">
+        Login
+      </mat-card-title>
+      <mat-card-subtitle>
+        Informe suas credenciais para entrar no blog.
+      </mat-card-subtitle>
+    </mat-card-header>
+    <form [formGroup]="loginForm" (ngSubmit)="autenticarUsuario()">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email">
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+          Email é obrigatório
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+          Email inválido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Senha</mat-label>
+        <input matInput formControlName="senha" type="password">
+        <mat-error *ngIf="loginForm.get('senha')?.hasError('required')">
+          Senha é obrigatória
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('senha')?.hasError('minlength')">
+          A senha deve ter pelo menos 6 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Entrar</button>
+    </form>
+    <button mat-button color="primary" (click)="irParaRotaRegistro()" class="btn-registro">Não tem uma conta?
+      Registre-se</button>
+    <mat-progress-bar mode="indeterminate" color="primary" *ngIf="exibirProgressBar"></mat-progress-bar>
+  </mat-card>
+</div>

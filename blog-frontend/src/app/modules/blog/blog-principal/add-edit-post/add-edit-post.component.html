@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>{{ data ? 'Editar Postagem' : 'Adicionar Postagem' }}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="postForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="titulo" maxlength="50">
+      <mat-hint align="end">
+        {{ postForm.get('titulo')?.value?.length || 0 }}/50
+      </mat-hint>
+      <mat-error *ngIf="postForm.get('titulo')?.hasError('required')">
+        Título é obrigatório
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Conteúdo</mat-label>
+      <textarea matInput formControlName="conteudo" maxlength="300"></textarea>
+      <mat-hint align="end">
+        {{ postForm.get('conteudo')?.value?.length || 0 }}/300
+      </mat-hint>
+      <mat-error *ngIf="postForm.get('conteudo')?.hasError('required')">
+        Conteúdo é obrigatório
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="fecharModal()">Cancelar</button>
+  <button mat-button color="primary" (click)="postarAlterarConteudo()">Postar</button>
+  <mat-progress-bar mode="indeterminate" color="primary" *ngIf="exibirProgressBar"></mat-progress-bar>
+</div>
