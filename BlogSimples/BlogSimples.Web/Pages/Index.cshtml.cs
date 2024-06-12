@@ -31,10 +31,10 @@ namespace BlogSimples.Web.Pages
             string usuario = formLogin.Username;
             string password = formLogin.Password;
 
-            _login.AddLoginAsync(new Login() { Username = usuario, Password = password });
+            _login.GravarAsync(new Login { Username = usuario, Password = password });
 
-            var lista = _login.GetAllLoginsAsync();
-            string testo = "~hjhj";
+            var lista = _login.ListarAsync();
+            //string testo = "~hjhj";
         }
     }
 }

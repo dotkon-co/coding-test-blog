@@ -5,10 +5,7 @@ namespace BlogSimples.Web.Service.Interfaces
 {
     public interface ILoginService
     {
-        Task<IEnumerable<Login>> GetAllLoginsAsync();
-        Task<Login> GetLoginByIdAsync(int id);
-        Task AddLoginAsync(Login login);
-        void UpdateLogin(Login login);
-        void DeleteLogin(Login login);
+        string GravarAsync(Login login);
+        Task<IEnumerable<Login>> ListarAsync();
     }
 }

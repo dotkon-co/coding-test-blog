@@ -3,6 +3,7 @@ using BlogSimples.Web.Repository.Interfaces;
 using BlogSimples.Web.Repository;
 using BlogSimples.Web.Service.Interfaces;
 using BlogSimples.Web.Service;
+using BlogSimples.Web.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,14 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 builder.Services.AddScoped<ILoginService, LoginService>();
+
+var serviceProvider = builder.Services.BuildServiceProvider();
+var loginService = serviceProvider.GetRequiredService<ILoginRepository>();
+// Adicionar alguns logins
+loginService.AddLoginAsync(new Login { Username = "user1", Password = "pass1" });
+loginService.AddLoginAsync(new Login { Username = "user2", Password = "pass2" });
+loginService.AddLoginAsync(new Login { Username = "user3", Password = "pass3" });
+
 
 var app = builder.Build();
 

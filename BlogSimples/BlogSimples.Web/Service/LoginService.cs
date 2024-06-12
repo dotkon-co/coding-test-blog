@@ -13,29 +13,21 @@ namespace BlogSimples.Web.Service
             _loginRepository = loginRepository;
         }
 
-        public async Task<IEnumerable<Login>> GetAllLoginsAsync()
+        public string GravarAsync(Login login)
         {
-            return await _loginRepository.GetAllAsync();
+            try
+            {
+                _loginRepository.AddLoginAsync(login);
+                return "Gravado com sucesso.";
+            }catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
 
-        public async Task<Login> GetLoginByIdAsync(int id)
+        public async Task<IEnumerable<Login>> ListarAsync()
         {
-            return await _loginRepository.GetByIdAsync(id);
-        }
-
-        public async Task AddLoginAsync(Login login)
-        {
-            await _loginRepository.AddAsync(login);
-        }
-
-        public void UpdateLogin(Login login)
-        {
-            _loginRepository.Update(login);
-        }
-
-        public void DeleteLogin(Login login)
-        {
-            _loginRepository.Delete(login);
+           return await _loginRepository.GetAllLoginsAsync();
         }
     }
 }
