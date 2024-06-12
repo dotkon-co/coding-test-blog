@@ -1,7 +1,10 @@
-﻿namespace BlogSimples.Web.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace BlogSimples.Web.Models
 {
     public class Login
     {
+        
         public int Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }

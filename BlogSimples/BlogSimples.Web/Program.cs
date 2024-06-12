@@ -1,7 +1,17 @@
+using BlogSimples.Web.Context;
+using BlogSimples.Web.Repository.Interfaces;
+using BlogSimples.Web.Repository;
+using BlogSimples.Web.Service.Interfaces;
+using BlogSimples.Web.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+builder.Services.AddScoped<ILoginService, LoginService>();
 
 var app = builder.Build();
 
@@ -22,9 +32,9 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Login}/{action=Index}/{id?}");
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 
 app.Run();

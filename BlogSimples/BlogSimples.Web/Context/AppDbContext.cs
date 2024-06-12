@@ -12,5 +12,13 @@ namespace BlogSimples.Web.Context
         {
             optionsBuilder.UseInMemoryDatabase("AppDb");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Login>().HasKey(e => e.Id);
+            modelBuilder.Entity<Postagem>().HasKey(e => e.PostId);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
