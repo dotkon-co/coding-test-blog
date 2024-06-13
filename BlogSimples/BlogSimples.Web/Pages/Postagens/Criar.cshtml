@@ -1,0 +1,49 @@
+﻿@page
+@model BlogSimples.Web.Pages.Postagens.CriarModel
+
+@{
+    ViewData["Title"] = "Criar Postagem";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<h4>Criar Postagem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Postagem.Titulo" class="control-label"></label>
+                <input asp-for="Postagem.Titulo" class="form-control" />
+                <span asp-validation-for="Postagem.Titulo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Postagem.Postage" class="control-label"></label>
+                <input asp-for="Postagem.Postage" class="form-control" />
+                <span asp-validation-for="Postagem.Postage" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="Postagem.DataCriacao" class="control-label"></label>
+                <input asp-for="Postagem.DataCriacao" class="form-control" />
+                <span asp-validation-for="Postagem.DataCriacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Postagem.UserId" class="control-label"></label>
+                <input asp-for="Postagem.UserId" class="form-control" />
+                <span asp-validation-for="Postagem.UserId" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

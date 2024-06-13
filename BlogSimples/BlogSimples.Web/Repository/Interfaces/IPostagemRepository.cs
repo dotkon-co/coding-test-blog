@@ -6,6 +6,7 @@ namespace BlogSimples.Web.Repository.Interfaces
     public interface IPostagemRepository : IRepository<Postagem>
     {
         Task<IEnumerable<Postagem>> GetAllPostagensAsync();
+        Task<IEnumerable<Postagem>> GetPostagensIdAsync(int userId);
 
         Task<int> AddPostagemAsync(Postagem post);
 

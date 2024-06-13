@@ -6,44 +6,51 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>listaPostagens</h1>
+<h1>Postagens</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Criar Postagem</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Postagem[0].Titulo)
+                Codigo
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Postagem[0].Postage)
+                Titulo
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Postagem[0].DataCriacao)
+                Postage
+            </th>
+            <th>
+                DataCriacao
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Postagem) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Postage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataCriacao)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.PostId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.PostId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.PostId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Postagem)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Titulo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Postage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataCriacao)
+                </td>
+                <td>
+                    <a asp-page="./Postagens/Editar" asp-route-id="@item.PostId">Editar</a> |
+                    <a asp-page="./Postagens/Delete" asp-route-id="@item.PostId">Excluir</a> 
+                    @* <a asp-page="./Details" asp-route-id="@item.PostId">Details</a> | *@
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

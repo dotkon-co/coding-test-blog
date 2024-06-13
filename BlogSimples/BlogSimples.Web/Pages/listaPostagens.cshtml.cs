@@ -8,29 +8,56 @@ using Microsoft.EntityFrameworkCore;
 using BlogSimples.Web.Context;
 using BlogSimples.Web.Models;
 using BlogSimples.Web.Service.Interfaces;
+using Newtonsoft.Json;
 
 namespace BlogSimples.Web.Pages
 {
     public class listaPostagensModel : PageModel
     {
         private readonly IPostagemService _postagem;
+        public IEnumerable<Postagem> Postagem { get;set; }
+        public int UserId { get; set; }
 
         public listaPostagensModel(IPostagemService postagem)
         {
-            _postagem = postagem;
+           _postagem = postagem;
         }
-        //private readonly BlogSimples.Web.Context.AppDbContext _context;
 
-        //public listaPostagensModel(BlogSimples.Web.Context.AppDbContext context)
-        //{
-        //    _context = context;
-        //}
-
-        public IList<Postagem> Postagem { get;set; } = default!;
-
-        public async Task<IEnumerable<Postagem>> Listar()
+        public void Post(string postagemJson) 
         {
-            return await _postagem.ListarAsync();
+            //var decodedPostagemJson = Uri.UnescapeDataString(postagemJson);
+            //Postagem = JsonConvert.DeserializeObject<List<Postagem>>(decodedPostagemJson);
         }
+
+        public void OnGet(int userId)
+        {
+            var lista = _postagem.ListarPostUserIdAsync(userId).Result;
+            var postagemJson = JsonConvert.SerializeObject(lista);
+            var decodedPostagemJson = Uri.UnescapeDataString(postagemJson);
+
+            Postagem = JsonConvert.DeserializeObject<List<Postagem>>(decodedPostagemJson);
+        }
+        //public void OnGet(string postagemJson)
+        //{
+        //    var decodedPostagemJson = Uri.UnescapeDataString(postagemJson);
+        //    Postagem = JsonConvert.DeserializeObject<List<Postagem>>(decodedPostagemJson);
+
+        //   // Postagem = postagemJson.ToList();
+
+        //    //var lista = Postagem.ToList();
+        //    //int id = UserId;
+
+        //    //int cod = 0;
+        //    //if (TempData["UserId"] != null)
+        //    //{
+        //    //    UserId = TempData["UserId"].ToString();
+        //    //}
+
+        //    //if (TempData["Postagem"] != null)
+        //    //{
+        //    //    Postagem = JsonConvert.DeserializeObject<List<Postagem>>(TempData["Postagem"].ToString());
+        //    //}
+        //}
+        
     }
 }

@@ -16,6 +16,11 @@ namespace BlogSimples.Web.Repository
             return await _context.Postagens.AsNoTracking().ToListAsync();
         }
 
+        public async Task<IEnumerable<Postagem>> GetPostagensIdAsync(int userId)
+        {
+            return await _context.Postagens.AsNoTracking().Where(x=> x.UserId.Equals(userId)).ToListAsync();
+        }
+
         public async Task<int> AddPostagemAsync(Postagem post)
         {
             var postagem = await _context.Postagens.AddAsync(post);

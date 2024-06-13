@@ -1,6 +1,7 @@
 ﻿using BlogSimples.Web.Models;
 using BlogSimples.Web.Repository.Interfaces;
 using BlogSimples.Web.Service.Interfaces;
+using Microsoft.Extensions.Hosting;
 
 namespace BlogSimples.Web.Service
 {
@@ -33,9 +34,14 @@ namespace BlogSimples.Web.Service
             return await _postagemRepository.AddPostagemAsync(post);
         }
 
-        public Task<IEnumerable<Postagem>> ListarAsync()
+        public async Task<IEnumerable<Postagem>> ListarAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Postagem>> ListarPostUserIdAsync(int postId)
+        {
+            return await _postagemRepository.GetPostagensIdAsync(postId);
         }
     }
 }

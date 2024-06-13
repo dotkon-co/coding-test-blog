@@ -13,6 +13,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IPostagemRepository, PostagemRepository>();
 builder.Services.AddScoped<IPostagemService, PostagemService>();
 
 var serviceProvider = builder.Services.BuildServiceProvider();
@@ -22,6 +23,8 @@ loginService.AddLoginAsync(new Login { Username = "user1", Password = "pass1" })
 loginService.AddLoginAsync(new Login { Username = "user2", Password = "pass2" });
 loginService.AddLoginAsync(new Login { Username = "user3", Password = "pass3" });
 
+//var postagemService = serviceProvider.GetRequiredService<IPostagemRepository>();
+//postagemService.AddPostagemAsync(new Postagem { UserId=4, Titulo = "Teste Blog Postagem", Postage = "Essa é uma postagem Teste" });
 
 
 var app = builder.Build();
