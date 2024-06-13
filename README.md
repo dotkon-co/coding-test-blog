@@ -51,3 +51,10 @@ Inclua qualquer documentação adicional que possa ajudar a entender sua soluç�
 
 Este teste prático é uma oportunidade para demonstrar suas habilidades em desenvolvimento C#, arquitetura de software e boas práticas de programação. 
 Divirta-se no processo!
+
+##Observação do Desenvolvedor (André Albuquerque)
+- Foi criado um Application Web ASP.NET Core na versão 8
+- A forma de armazenamento dos dados foi escolhido EntityFrameworkCore In-Memory.
+- Salvando os dados em memória, podendo incluir varias postagens para cada login efetuado.
+- Acredito que fiz a forma mais simples, e que na minha visão atentendeu os requisitos do teste.
+    
