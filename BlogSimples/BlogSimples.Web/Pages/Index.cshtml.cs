@@ -29,7 +29,7 @@ namespace BlogSimples.Web.Pages
 
             //string usuario = formLogin.Username;
             //string password = formLogin.Password;
-            TempData["userId"] = "0";
+            int userId = 0;
             var usuario = new Login { Username = formLogin.Username, Password = formLogin.Password };
 
             var login = _login.BuscarAsync(usuario).Result;
@@ -37,10 +37,12 @@ namespace BlogSimples.Web.Pages
             if ( login is null)
             {
                 var retorno =_login.GravarAsync(usuario);
-                TempData["userId"] = retorno.Result.ToString();
+                userId = retorno.Result;
             }else
-                TempData["userId"] = login.Id;
+                userId = login.Id;
 
+
+            TempData["userId"] = userId;
             return RedirectToPage("./Postagens");
             
 
