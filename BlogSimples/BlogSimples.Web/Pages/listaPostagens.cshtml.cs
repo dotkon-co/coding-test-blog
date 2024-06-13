@@ -7,23 +7,30 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BlogSimples.Web.Context;
 using BlogSimples.Web.Models;
+using BlogSimples.Web.Service.Interfaces;
 
 namespace BlogSimples.Web.Pages
 {
     public class listaPostagensModel : PageModel
     {
-        private readonly BlogSimples.Web.Context.AppDbContext _context;
+        private readonly IPostagemService _postagem;
 
-        public listaPostagensModel(BlogSimples.Web.Context.AppDbContext context)
+        public listaPostagensModel(IPostagemService postagem)
         {
-            _context = context;
+            _postagem = postagem;
         }
+        //private readonly BlogSimples.Web.Context.AppDbContext _context;
+
+        //public listaPostagensModel(BlogSimples.Web.Context.AppDbContext context)
+        //{
+        //    _context = context;
+        //}
 
         public IList<Postagem> Postagem { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public async Task<IEnumerable<Postagem>> Listar()
         {
-            Postagem = await _context.Postagens.ToListAsync();
+            return await _postagem.ListarAsync();
         }
     }
 }

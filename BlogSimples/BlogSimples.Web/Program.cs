@@ -13,6 +13,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IPostagemService, PostagemService>();
 
 var serviceProvider = builder.Services.BuildServiceProvider();
 var loginService = serviceProvider.GetRequiredService<ILoginRepository>();
