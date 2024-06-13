@@ -10,16 +10,19 @@ using BlogSimples.Web.Models;
 using System.Dynamic;
 using BlogSimples.Web.Service;
 using BlogSimples.Web.Service.Interfaces;
+using BlogSimples.Web.Controllers;
 
 namespace BlogSimples.Web.Pages.Postagens
 {
     public class CriarModel : PageModel
     {
         private readonly IPostagemService _context;
+        private readonly NotificationController _notify;
 
-        public CriarModel(IPostagemService context)
+        public CriarModel(IPostagemService context, NotificationController notify)
         {
             _context = context;
+            _notify = notify;
         }
 
         [BindProperty]
@@ -38,7 +41,9 @@ namespace BlogSimples.Web.Pages.Postagens
         {
             Postagem.UserId = UserId;   
             await _context.GravarAsync(Postagem);
+            await _notify.Notify("Postagem criada com sucesso."); 
             return RedirectToPage("/ListaPostagens", new { userId = Postagem.UserId });
         }
     }
 }
+

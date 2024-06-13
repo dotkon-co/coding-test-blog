@@ -7,6 +7,7 @@ using BlogSimples.Web.Models;
 using System.Net.WebSockets;
 using System.Net;
 using System.Text;
+using BlogSimples.Web.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddSingleton<NotificationService>();
 
 builder.Services.AddControllers();
+
+builder.Services.AddTransient<NotificationController>();
 
 builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
