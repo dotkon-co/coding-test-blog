@@ -9,6 +9,8 @@ using BlogSimples.Web.Context;
 using BlogSimples.Web.Models;
 using BlogSimples.Web.Service.Interfaces;
 using Newtonsoft.Json;
+using BlogSimples.Web.Service;
+using BlogSimples.Web.Controllers;
 
 namespace BlogSimples.Web.Pages
 {
@@ -27,21 +29,18 @@ namespace BlogSimples.Web.Pages
 
         public void Post() 
         {
-            int cod = 0;
-            //var decodedPostagemJson = Uri.UnescapeDataString(postagemJson);
-            //Postagem = JsonConvert.DeserializeObject<List<Postagem>>(decodedPostagemJson);
+           
         }
 
-        public void OnGet(int userId)
+        public async Task OnGet(int userId)
         {
-           
             var lista = _postagem.ListarPostUserIdAsync(userId).Result;
             var postagemJson = JsonConvert.SerializeObject(lista);
             var decodedPostagemJson = Uri.UnescapeDataString(postagemJson);
 
             Postagem = JsonConvert.DeserializeObject<List<Postagem>>(decodedPostagemJson);
-
             UserId = 0;
+
         }        
         
     }

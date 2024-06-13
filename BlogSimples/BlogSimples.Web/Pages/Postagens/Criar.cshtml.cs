@@ -8,20 +8,22 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using BlogSimples.Web.Context;
 using BlogSimples.Web.Models;
 using System.Dynamic;
+using BlogSimples.Web.Service;
+using BlogSimples.Web.Service.Interfaces;
 
 namespace BlogSimples.Web.Pages.Postagens
 {
     public class CriarModel : PageModel
     {
-        private readonly BlogSimples.Web.Context.AppDbContext _context;
-        
-        [BindProperty]
-        public int UserId { get; set; } = default!;
+        private readonly IPostagemService _context;
 
-        public CriarModel(BlogSimples.Web.Context.AppDbContext context)
+        public CriarModel(IPostagemService context)
         {
             _context = context;
         }
+
+        [BindProperty]
+        public int UserId { get; set; } = default!;
 
         public IActionResult OnGet(int userId)
         {
@@ -35,10 +37,7 @@ namespace BlogSimples.Web.Pages.Postagens
         public async Task<IActionResult> OnPostAsync()
         {
             Postagem.UserId = UserId;   
-
-            _context.Postagens.Add(Postagem);
-            await _context.SaveChangesAsync();
-
+            await _context.GravarAsync(Postagem);
             return RedirectToPage("/ListaPostagens", new { userId = Postagem.UserId });
         }
     }

@@ -4,11 +4,19 @@ using BlogSimples.Web.Repository;
 using BlogSimples.Web.Service.Interfaces;
 using BlogSimples.Web.Service;
 using BlogSimples.Web.Models;
+using System.Net.WebSockets;
+using System.Net;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+//Adicionado servico para notificao
+builder.Services.AddSingleton<NotificationService>();
+
+builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
@@ -46,9 +54,51 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Login}/{action=Index}/{id?}");
+var webSocketOptions = new WebSocketOptions
+{
+    KeepAliveInterval = TimeSpan.FromMinutes(2)
+};
 
+app.UseWebSockets(webSocketOptions);
+
+app.Use(async (context, next) =>
+{
+    //if (context.Request.Path.ToString().Contains("ws"))
+    if (context.Request.Path == "/ws")
+    {
+        if (context.WebSockets.IsWebSocketRequest)
+        {
+            var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+            var notificationService = context.RequestServices.GetRequiredService<NotificationService>();
+            notificationService.AddSocket(webSocket);
+            await Notify(context, webSocket);
+        }
+        else
+        {
+            context.Response.StatusCode = 400;
+        }
+    }
+    else
+    {
+        await next();
+    }
+});
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+static async Task Notify(HttpContext context, WebSocket webSocket)
+{
+    var buffer = new byte[1024 * 4];
+    WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
+    while (!result.CloseStatus.HasValue)
+    {
+        result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+    }
+
+    await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+}
