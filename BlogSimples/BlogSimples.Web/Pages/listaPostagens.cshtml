@@ -9,7 +9,7 @@
 <h1>Postagens</h1>
 
 <p>
-    <a asp-page="Create">Criar Postagem</a>
+    <a asp-page="/Postagens/Criar" asp-route-userId="@Model.Postagem.FirstOrDefault().UserId">Criar Postagem</a>
 </p>
 <table class="table">
     <thead>

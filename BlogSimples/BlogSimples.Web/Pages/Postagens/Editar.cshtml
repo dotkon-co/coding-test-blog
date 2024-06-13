@@ -33,6 +33,8 @@
                 <input asp-for="Postagem.UserId" class="form-control" />
                 <span asp-validation-for="Postagem.UserId" class="text-danger"></span>
             </div> *@
+            <input type="hidden" asp-for="Postagem.UserId" />
+
             <div class="form-group"></br></div>
             <div class="form-group">
                 <input type="submit" value="Salvar" class="btn btn-primary" />

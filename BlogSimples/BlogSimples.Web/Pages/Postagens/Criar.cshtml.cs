@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BlogSimples.Web.Context;
 using BlogSimples.Web.Models;
+using System.Dynamic;
 
 namespace BlogSimples.Web.Pages.Postagens
 {
@@ -19,10 +20,15 @@ namespace BlogSimples.Web.Pages.Postagens
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public void OnGet(int userId)
         {
-            return Page();
+            int valor = userId;
         }
+
+        //public IActionResult OnGet()
+        //{
+        //    return Page();
+        //}
 
         [BindProperty]
         public Postagem Postagem { get; set; } = default!;
