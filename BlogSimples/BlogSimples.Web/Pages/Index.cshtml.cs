@@ -1,5 +1,6 @@
 using BlogSimples.Web.Models;
 using BlogSimples.Web.Service.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,8 +10,6 @@ namespace BlogSimples.Web.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly ILoginService _login;
-
-        List<Login> listaLogin = new List<Login>();
 
         [BindProperty]
         public Login formLogin { get; set; }
@@ -23,18 +22,28 @@ namespace BlogSimples.Web.Pages
 
         public void OnGet()
         {
-
+            
         }
 
-        public void OnPost() {
+        public IActionResult OnPost() {
 
-            string usuario = formLogin.Username;
-            string password = formLogin.Password;
+            //string usuario = formLogin.Username;
+            //string password = formLogin.Password;
+            TempData["userId"] = "0";
+            var usuario = new Login { Username = formLogin.Username, Password = formLogin.Password };
 
-            _login.GravarAsync(new Login { Username = usuario, Password = password });
+            var login = _login.BuscarAsync(usuario).Result;
 
-            var lista = _login.ListarAsync();
-            //string testo = "~hjhj";
+            if ( login is null)
+            {
+                var retorno =_login.GravarAsync(usuario);
+                TempData["userId"] = retorno.Result.ToString();
+            }else
+                TempData["userId"] = login.Id;
+
+            return RedirectToPage("./Postagens");
+            
+
         }
     }
 }

@@ -5,7 +5,8 @@ namespace BlogSimples.Web.Service.Interfaces
 {
     public interface ILoginService
     {
-        string GravarAsync(Login login);
+        Task<int> GravarAsync(Login login);
         Task<IEnumerable<Login>> ListarAsync();
+        Task<Login> BuscarAsync(Login login);
     }
 }

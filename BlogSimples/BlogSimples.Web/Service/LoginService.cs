@@ -13,15 +13,20 @@ namespace BlogSimples.Web.Service
             _loginRepository = loginRepository;
         }
 
-        public string GravarAsync(Login login)
+        public Task<Login> BuscarAsync(Login login)
+        {
+            return _loginRepository.GetLoginAsync(login);
+        }
+
+        public Task<int> GravarAsync(Login login)
         {
             try
             {
-                _loginRepository.AddLoginAsync(login);
-                return "Gravado com sucesso.";
-            }catch (Exception ex)
+                return _loginRepository.AddLoginAsync(login);
+
+            }catch
             {
-                return ex.Message;
+                return Task.FromResult(-1);
             }
         }
 

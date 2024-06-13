@@ -22,8 +22,8 @@ loginService.AddLoginAsync(new Login { Username = "user2", Password = "pass2" })
 loginService.AddLoginAsync(new Login { Username = "user3", Password = "pass3" });
 
 
-var app = builder.Build();
 
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

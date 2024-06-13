@@ -17,10 +17,17 @@ namespace BlogSimples.Web.Repository
             return await _context.Logins.AsNoTracking().ToListAsync();
         }
 
-        public async Task AddLoginAsync(Login login)
+        public async Task<int> AddLoginAsync(Login login)
         {
-            await _context.Logins.AddAsync(login);
+            var usuario = await _context.Logins.AddAsync(login);
             await _context.SaveChangesAsync();
+
+            return usuario.Entity.Id;
+        }
+
+        public async Task<Login> GetLoginAsync(Login login)
+        {
+            return await _context.Logins.Where(x=> x.Username.Equals(login.Username) && x.Password.Equals(login.Password)).FirstOrDefaultAsync();
         }
 
     }
