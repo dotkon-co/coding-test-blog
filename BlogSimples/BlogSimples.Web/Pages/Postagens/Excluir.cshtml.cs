@@ -7,30 +7,29 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BlogSimples.Web.Context;
 using BlogSimples.Web.Models;
+using BlogSimples.Web.Service.Interfaces;
 
 namespace BlogSimples.Web.Pages.Postagens
 {
     public class ExcluirModel : PageModel
     {
-        private readonly BlogSimples.Web.Context.AppDbContext _context;
+        private readonly IPostagemService _context;
 
-        public ExcluirModel(BlogSimples.Web.Context.AppDbContext context)
+        public ExcluirModel(IPostagemService context)
         {
             _context = context;
         }
 
         [BindProperty]
         public Postagem Postagem { get; set; } = default!;
+        [BindProperty]
+        public int UserId { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var postagem = await _context.Postagens.FirstOrDefaultAsync(m => m.PostId == id);
-
+            var postagem = await _context.BuscarIdAsync(id);
+            UserId = postagem.UserId;
             if (postagem == null)
             {
                 return NotFound();
@@ -42,22 +41,22 @@ namespace BlogSimples.Web.Pages.Postagens
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var postagem = await _context.Postagens.FindAsync(id);
+            var postagem = await _context.BuscarIdAsync(id);
             if (postagem != null)
             {
                 Postagem = postagem;
-                _context.Postagens.Remove(Postagem);
-                await _context.SaveChangesAsync();
+                await _context.DeletarAsync(Postagem);
+              //await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/ListaPostagens", new { userId = Postagem.UserId });
         }
     }
 }

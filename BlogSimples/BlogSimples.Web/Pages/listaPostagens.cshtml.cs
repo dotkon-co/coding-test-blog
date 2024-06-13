@@ -25,20 +25,23 @@ namespace BlogSimples.Web.Pages
            _postagem = postagem;
         }
 
-        public void Post(string postagemJson) 
+        public void Post() 
         {
+            int cod = 0;
             //var decodedPostagemJson = Uri.UnescapeDataString(postagemJson);
             //Postagem = JsonConvert.DeserializeObject<List<Postagem>>(decodedPostagemJson);
         }
 
         public void OnGet(int userId)
         {
-            UserId = userId;
+           
             var lista = _postagem.ListarPostUserIdAsync(userId).Result;
             var postagemJson = JsonConvert.SerializeObject(lista);
             var decodedPostagemJson = Uri.UnescapeDataString(postagemJson);
 
             Postagem = JsonConvert.DeserializeObject<List<Postagem>>(decodedPostagemJson);
+
+            UserId = 0;
         }        
         
     }

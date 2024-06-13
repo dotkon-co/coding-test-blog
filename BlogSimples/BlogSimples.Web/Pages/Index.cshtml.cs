@@ -8,18 +8,16 @@ namespace BlogSimples.Web.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
         private readonly ILoginService _login;
-
         private readonly IPostagemService _post;
-
 
         [BindProperty]
         public Login formLogin { get; set; }
+        [BindProperty]
+        public int UserId { get; set; } = default!;
 
-        public IndexModel(ILogger<IndexModel> logger, ILoginService login, IPostagemService post)
+        public IndexModel(ILoginService login, IPostagemService post)
         {
-            _logger = logger;
             _login = login;
             _post = post;   
         }
@@ -32,8 +30,6 @@ namespace BlogSimples.Web.Pages
         public async Task<IActionResult> OnPost()
         {
 
-            //string usuario = formLogin.Username;
-            //string password = formLogin.Password;
             int userId = 0;
             var usuario = new Login { Username = formLogin.Username, Password = formLogin.Password };
 
@@ -50,14 +46,9 @@ namespace BlogSimples.Web.Pages
             //await _post.GravarAsync(new Postagem { UserId = userId, Titulo = "Primeiro Post automatico de TESTE", Postage = "Postagem Teste OK" });
 
             var listaPostagens = await _post.ListarPostUserIdAsync(userId);
-
-            TempData["userId"] = userId;
-            //return RedirectToPage("./Postagens", new PostagensModel { ListaPostagens = listaPostagens } );
             var postagemJson = JsonConvert.SerializeObject(listaPostagens);
-            //return RedirectToPage("./listaPostagens", new { postagemJson = postagemJson });
-
-            return RedirectToPage("./listaPostagens", new { userId = userId });
-
+            
+            return RedirectToPage("./listaPostagens", new { UserId = userId });
 
         }
 

@@ -24,7 +24,8 @@ loginService.AddLoginAsync(new Login { Username = "user2", Password = "pass2" })
 loginService.AddLoginAsync(new Login { Username = "user3", Password = "pass3" });
 
 //var postagemService = serviceProvider.GetRequiredService<IPostagemRepository>();
-//postagemService.AddPostagemAsync(new Postagem { UserId=4, Titulo = "Teste Blog Postagem", Postage = "Essa é uma postagem Teste" });
+//postagemService.AddPostagemAsync(new Postagem { UserId=2, Titulo = "Teste Blog Postagem-2", Postage = "Essa é uma postagem Teste-2" });
+//postagemService.AddPostagemAsync(new Postagem { UserId = 3, Titulo = "Teste Blog Postagem", Postage = "Essa é uma postagem Teste 3" });
 
 
 var app = builder.Build();
