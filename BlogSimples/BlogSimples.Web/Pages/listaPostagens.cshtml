@@ -6,12 +6,14 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Postagens</h1>
 
-<p>
-    <a asp-page="/Postagens/Criar" asp-route-userId="@Model.Postagem.FirstOrDefault().UserId">Criar Postagem</a>
-</p>
-<table class="table">
+<h1>Lista das Postagens</h1>
+
+@if (!Model.Postagem.Any())
+{
+    <a asp-page="/Postagens/Criar" asp-route-userId="@Model.UserId">Criar Postagem</a>
+}
+<table class="table table-responsive table-striped">
     <thead>
         <tr>
             <th>
@@ -46,6 +48,7 @@
                     @Html.DisplayFor(modelItem => item.DataCriacao)
                 </td>
                 <td>
+                    <a asp-page="/Postagens/Criar" asp-route-userId="@Model.Postagem.FirstOrDefault().UserId">Criar</a> |
                     <a asp-page="./Postagens/Editar" asp-route-id="@item.PostId">Editar</a> |
                     <a asp-page="./Postagens/Delete" asp-route-id="@item.PostId">Excluir</a> 
                     @* <a asp-page="./Details" asp-route-id="@item.PostId">Details</a> | *@

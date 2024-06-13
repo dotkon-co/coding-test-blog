@@ -16,7 +16,9 @@ namespace BlogSimples.Web.Pages
     {
         private readonly IPostagemService _postagem;
         public IEnumerable<Postagem> Postagem { get;set; }
-        public int UserId { get; set; }
+        
+        [BindProperty]
+        public int UserId { get; set; } = default!;
 
         public listaPostagensModel(IPostagemService postagem)
         {
@@ -31,33 +33,13 @@ namespace BlogSimples.Web.Pages
 
         public void OnGet(int userId)
         {
+            UserId = userId;
             var lista = _postagem.ListarPostUserIdAsync(userId).Result;
             var postagemJson = JsonConvert.SerializeObject(lista);
             var decodedPostagemJson = Uri.UnescapeDataString(postagemJson);
 
             Postagem = JsonConvert.DeserializeObject<List<Postagem>>(decodedPostagemJson);
-        }
-        //public void OnGet(string postagemJson)
-        //{
-        //    var decodedPostagemJson = Uri.UnescapeDataString(postagemJson);
-        //    Postagem = JsonConvert.DeserializeObject<List<Postagem>>(decodedPostagemJson);
-
-        //   // Postagem = postagemJson.ToList();
-
-        //    //var lista = Postagem.ToList();
-        //    //int id = UserId;
-
-        //    //int cod = 0;
-        //    //if (TempData["UserId"] != null)
-        //    //{
-        //    //    UserId = TempData["UserId"].ToString();
-        //    //}
-
-        //    //if (TempData["Postagem"] != null)
-        //    //{
-        //    //    Postagem = JsonConvert.DeserializeObject<List<Postagem>>(TempData["Postagem"].ToString());
-        //    //}
-        //}
+        }        
         
     }
 }

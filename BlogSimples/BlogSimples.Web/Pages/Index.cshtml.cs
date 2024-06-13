@@ -47,7 +47,7 @@ namespace BlogSimples.Web.Pages
             else
                 userId = login.Id;
 
-            await _post.GravarAsync(new Postagem { UserId = userId, Titulo = "Primeiro Post automatico de TESTE", Postage = "Postagem Teste OK" });
+            //await _post.GravarAsync(new Postagem { UserId = userId, Titulo = "Primeiro Post automatico de TESTE", Postage = "Postagem Teste OK" });
 
             var listaPostagens = await _post.ListarPostUserIdAsync(userId);
 

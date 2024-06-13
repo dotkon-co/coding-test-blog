@@ -29,7 +29,7 @@ namespace BlogSimples.Web.Pages.Postagens
             var postagem = await _context.BuscarIdAsync(id);
             if (postagem == null)
             {
-                // return NotFound();
+                return NotFound();
             }
             Postagem = postagem;
             return Page();

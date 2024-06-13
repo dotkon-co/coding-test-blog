@@ -14,37 +14,32 @@ namespace BlogSimples.Web.Pages.Postagens
     public class CriarModel : PageModel
     {
         private readonly BlogSimples.Web.Context.AppDbContext _context;
+        
+        [BindProperty]
+        public int UserId { get; set; } = default!;
 
         public CriarModel(BlogSimples.Web.Context.AppDbContext context)
         {
             _context = context;
         }
 
-        public void OnGet(int userId)
+        public IActionResult OnGet(int userId)
         {
-            int valor = userId;
+            UserId = userId;
+            return Page();
         }
-
-        //public IActionResult OnGet()
-        //{
-        //    return Page();
-        //}
 
         [BindProperty]
         public Postagem Postagem { get; set; } = default!;
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+        
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            Postagem.UserId = UserId;   
 
             _context.Postagens.Add(Postagem);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/ListaPostagens", new { userId = Postagem.UserId });
         }
     }
 }
