@@ -1,0 +1,143 @@
+﻿# .NET 8.0 .gitignore
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa]rtifacts/
+
+# Rider
+.idea/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Auto-generated files
+*.sln.ide
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# DotNetCore-Tooling
+.vs/
+.dotnet/
+
+# NCrunch
+.ncrunchsolution
+
+# Web service binary files
+bin/
+obj/
+wwwroot/
+
+# .NET Core runtime
+global.json
+
+# Logs
+*.log
+*.tlg
+
+# Azure Functions
+.local.settings.json
+
+# NPM Packages
+node_modules/
+npm-debug.log
+yarn.lock
+
+# Environment variables
+.env
+
+# Bundler
+.bundle/
+.bundled/
+
+# Coverlet coverage output directory
+coverage/
+
+# StyleCop code analyzers
+.stylecop/
+.stylecop.json
+
+# ASP.NET temporary files
+.nuget/
+
+# User secrets
+secrets.json
+
+# Translations
+localizations/
+
+# Docker images
+**/Dockerfile
+**/docker-compose*
+
+# IDE
+.idea/
+.vscode/
+.vs/
+
+# JetBrains Rider
+.idea/
+.idea/.idea
+
+# Rider Core
+.idea/.idea
+
+# Mac
+.DS_Store
+
+# Backup files
+*.bak
+*.old
+*.swp
+*.swo
+
+# Uncomment if using...
+# SonarQube
+.sonarqube/out/
+. SonarQube temp files
+.sonarqube/temp/
+# JetBrains
+**/JetBrains/
+# ReSharper
+_ReSharper*/
+
+# Backup files
+*.bak
+*.old
+*.swp
+*.swo
+
+# coverage directory used by tools like istanbul
+coverage/

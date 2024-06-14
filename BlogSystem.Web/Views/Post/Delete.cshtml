@@ -1,0 +1,19 @@
+﻿@model BlogSystem.Application.Dto.PostDto
+
+@{
+    ViewData["Title"] = "Delete Post";
+}
+
+<h2>Delete Post</h2>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <div class="form-group">
+        <label>Title</label>
+        <p>@Model.Title</p>
+    </div>
+    <div class="form-group">
+        <label>Content</label>
+        <p>@Model.Content</p>
+    </div>
+    <button type="submit" class="btn btn-danger">Delete</button>
+</form>
