@@ -22,6 +22,7 @@ namespace BlogSimples.Web.Pages.Postagens
 
         [BindProperty]
         public Postagem Postagem { get; set; } = default!;
+
         [BindProperty]
         public int UserId { get; set; } = default!;
 
