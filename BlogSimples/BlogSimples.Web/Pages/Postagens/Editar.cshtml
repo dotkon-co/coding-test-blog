@@ -1,0 +1,49 @@
+﻿@page
+@model BlogSimples.Web.Pages.Postagens.EditarModel
+
+@{
+    ViewData["Title"] = "Editar";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h4>Edita Postagem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Postagem.PostId" />
+            <div class="form-group">
+                <label asp-for="Postagem.Titulo" class="control-label"></label>
+                <input asp-for="Postagem.Titulo" class="form-control" />
+                <span asp-validation-for="Postagem.Titulo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Postagem.Postage" class="control-label"></label>
+                <input asp-for="Postagem.Postage" class="form-control" />
+                <span asp-validation-for="Postagem.Postage" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="Postagem.DataCriacao" class="control-label"></label>
+                <input asp-for="Postagem.DataCriacao" class="form-control" />
+                <span asp-validation-for="Postagem.DataCriacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Postagem.UserId" class="control-label"></label>
+                <input asp-for="Postagem.UserId" class="form-control" />
+                <span asp-validation-for="Postagem.UserId" class="text-danger"></span>
+            </div> *@
+            <input type="hidden" asp-for="Postagem.UserId" />
+
+            <div class="form-group"></br></div>
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <a asp-page="/ListaPostagens" asp-route-userId="@Model.Postagem.UserId" class="btn btn-warning">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

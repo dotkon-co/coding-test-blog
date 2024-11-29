@@ -1,0 +1,59 @@
+﻿@page
+@model BlogSimples.Web.Pages.listaPostagensModel
+
+@{
+    ViewData["Title"] = "listaPostagens";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+<h1>Lista das Postagens</h1>
+
+@if (!Model.Postagem.Any())
+{
+    <a asp-page="/Postagens/Criar" asp-route-userId="@Model.UserId">Criar Postagem</a>
+}
+<table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>
+                Codigo
+            </th>
+            <th>
+                Titulo
+            </th>
+            <th>
+                Postage
+            </th>
+            <th>
+                DataCriacao
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Postagem)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Titulo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Postage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataCriacao)
+                </td>
+                <td>
+                    <a asp-page="/Postagens/Criar" asp-route-userId="@Model.Postagem.FirstOrDefault().UserId">Criar</a> |
+                    <a asp-page="./Postagens/Editar" asp-route-id="@item.PostId">Editar</a> |
+                    <a asp-page="./Postagens/Excluir" asp-route-id="@item.PostId">Excluir</a> 
+                    @* <a asp-page="./Details" asp-route-id="@item.PostId">Details</a> | *@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
