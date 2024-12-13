@@ -1,6 +1,5 @@
 namespace CodingBlog.Application.Services;
 
-
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Entities;

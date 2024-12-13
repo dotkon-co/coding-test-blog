@@ -18,11 +18,11 @@ public class PostController : ControllerBase
      =>_postService = postService;
 
     [HttpGet]
-    [ProducesResponseType(typeof(Post[]), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PostResponse[]), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllPosts(CancellationToken cancellationToken)
     {
         var posts = await _postService.GetAll(cancellationToken);
-        return Ok(posts);
+        return Ok(posts.MapTo<List<PostResponse>>());
     }
 
     [Authorize(Roles = "Admin, Editor")]
@@ -40,14 +40,14 @@ public class PostController : ControllerBase
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(Post), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(PostRequest), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> EditPost([FromRoute] int id, [FromBody] PostRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdatPost([FromRoute] int id, [FromBody] PostRequest request, CancellationToken cancellationToken)
     {
         var post = request.MapTo<Post>();
         var updatedPost = await _postService.Update(id, post, cancellationToken);
         if (updatedPost.IsFailed)
             return NotFound();
 
-        return Ok(updatedPost);
+        return Ok(updatedPost.Value);
     }
 
     [Authorize(Roles = "Admin")]

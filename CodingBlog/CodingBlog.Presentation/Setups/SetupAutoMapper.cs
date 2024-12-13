@@ -16,7 +16,7 @@ public static class SetupAutoMapper
         return services;
     }
 
-    private static void SetupApiMapperProfiles(IMapperConfigurationExpression configuration)
+    public static void SetupApiMapperProfiles(IMapperConfigurationExpression configuration)
     {
         configuration.AddProfile<PostMapper>();
     }
