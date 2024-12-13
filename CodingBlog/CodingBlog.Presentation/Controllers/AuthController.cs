@@ -16,16 +16,16 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public IActionResult Register([FromBody] RegisterRequest request)
+    public IActionResult Register([FromBody] RegisterRequest request, CancellationToken cancellationToken)
     {
-        var token = _authService.Register(request.Username, request.Password);
+        var token = _authService.Register(request.Username, request.Password, cancellationToken);
         return Ok(new { Token = token });
     }
 
     [HttpPost("login")]
-    public IActionResult Login([FromBody] LoginRequest model)
+    public IActionResult Login([FromBody] LoginRequest model, CancellationToken cancellationToken)
     {
-        var token = _authService.Login(model.Username, model.Password);
+        var token = _authService.Login(model.Username, model.Password, cancellationToken);
         return Ok(new { Token = token });
     }
 }

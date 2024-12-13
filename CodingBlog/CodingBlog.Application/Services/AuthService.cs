@@ -13,8 +13,8 @@ using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegiste
 
 public interface IAuthService
 {
-    Task<string> Register(string username, string password);
-    Task<string> Login(string username, string password);
+    Task<string> Register(string username, string password, CancellationToken cancellationToken);
+    Task<string> Login(string username, string password, CancellationToken cancellationToken);
 }
 
 public class AuthService : IAuthService
@@ -28,16 +28,16 @@ public class AuthService : IAuthService
         _configuration = configuration;
     }
 
-    public async Task<string> Register(string username, string password)
+    public async Task<string> Register(string username, string password, CancellationToken cancellationToken)
     {
         var user = new User { Username = username, Password = BCrypt.Net.BCrypt.HashPassword(password), Role = "Viewer" };
-        await _userRepository.Create(user);
+        await _userRepository.Create(user, cancellationToken);
         return GenerateJwtToken(user);
     }
 
-    public async Task<string> Login(string username, string password)
+    public async Task<string> Login(string username, string password, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByUsername(username);
+        var user = await _userRepository.GetByUsername(username, cancellationToken);
         if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
             throw new UnauthorizedAccessException("Invalid credentials.");
 
@@ -54,14 +54,14 @@ public class AuthService : IAuthService
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
             claims: claims,
             expires: DateTime.Now.AddHours(1),
-            signingCredentials: creds);
+            signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }

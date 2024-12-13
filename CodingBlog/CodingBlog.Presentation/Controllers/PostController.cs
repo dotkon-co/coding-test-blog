@@ -19,9 +19,9 @@ public class PostController : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(typeof(Post[]), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAllPosts()
+    public async Task<IActionResult> GetAllPosts(CancellationToken cancellationToken)
     {
-        var posts = await _postService.GetAll();
+        var posts = await _postService.GetAll(cancellationToken);
         return Ok(posts);
     }
 
@@ -29,10 +29,10 @@ public class PostController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(PostResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(PostRequest), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreatePost([FromBody] PostRequest request)
+    public async Task<IActionResult> CreatePost([FromBody] PostRequest request, CancellationToken cancellationToken)
     {
         var post = request.MapTo<Post>();
-        var createdPost = await _postService.Create(post);
+        var createdPost = await _postService.Create(post, cancellationToken);
         return Created("",createdPost.Value.MapTo<PostResponse>());
     }
 
@@ -40,10 +40,10 @@ public class PostController : ControllerBase
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(Post), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(PostRequest), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> EditPost([FromRoute] int id, [FromBody] PostRequest request)
+    public async Task<IActionResult> EditPost([FromRoute] int id, [FromBody] PostRequest request, CancellationToken cancellationToken)
     {
         var post = request.MapTo<Post>();
-        var updatedPost = await _postService.Update(id, post);
+        var updatedPost = await _postService.Update(id, post, cancellationToken);
         if (updatedPost.IsFailed)
             return NotFound();
 
@@ -54,9 +54,9 @@ public class PostController : ControllerBase
     [HttpDelete("{id}")]
     [ProducesResponseType( StatusCodes.Status204NoContent)]
     [ProducesResponseType( StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> DeletePost([FromRoute] int id)
+    public async Task<IActionResult> DeletePost([FromRoute] int id, CancellationToken cancellationToken)
     {
-        var result = await _postService.Delete(id);
+        var result = await _postService.Delete(id, cancellationToken);
         if (result.IsFailed)
             return NotFound();
 
