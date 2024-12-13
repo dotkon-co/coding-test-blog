@@ -5,6 +5,6 @@ using Entities;
 
 public interface IUserRepository
 {
-    Task<User?> GetByUsername(string username, CancellationToken cancellationToken);
+    Task<User?> GetByEmail(string username, CancellationToken cancellationToken);
     Task<User> Create(User user, CancellationToken cancellationToken);
 }

@@ -1,5 +1,6 @@
 namespace CodingBlog.Application.Services;
 
+using FluentResults;
 using System;
 using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,8 +14,8 @@ using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegiste
 
 public interface IAuthService
 {
-    Task<string> Register(string username, string password, CancellationToken cancellationToken);
-    Task<string> Login(string username, string password, CancellationToken cancellationToken);
+    Task<Result> Register(string username, string email, string password, CancellationToken cancellationToken);
+    Task<Result<string>> Login(string username, string password, CancellationToken cancellationToken);
 }
 
 public class AuthService : IAuthService
@@ -28,20 +29,26 @@ public class AuthService : IAuthService
         _configuration = configuration;
     }
 
-    public async Task<string> Register(string username, string password, CancellationToken cancellationToken)
+    public async Task<Result> Register(string username, string email, string password, CancellationToken cancellationToken)
     {
-        var user = new User { Username = username, Password = BCrypt.Net.BCrypt.HashPassword(password), Role = "Viewer" };
+        
+        var saveUser = await _userRepository.GetByEmail(email, cancellationToken);
+        if (saveUser is not null)
+           return Result.Fail("This user is already registered.");
+
+        var user = new User (username, email , BCrypt.Net.BCrypt.HashPassword(password), "Editor" );
+        
         await _userRepository.Create(user, cancellationToken);
-        return GenerateJwtToken(user);
+        return Result.Ok();
     }
 
-    public async Task<string> Login(string username, string password, CancellationToken cancellationToken)
+    public async Task<Result<string>> Login(string username, string password, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByUsername(username, cancellationToken);
+        var user = await _userRepository.GetByEmail(username, cancellationToken);
         if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
-            throw new UnauthorizedAccessException("Invalid credentials.");
+            return Result.Fail("Invalid credentials.");
 
-        return GenerateJwtToken(user);
+        return Result.Ok(GenerateJwtToken(user));
     }
 
     private string GenerateJwtToken(User user)

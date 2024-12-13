@@ -9,12 +9,12 @@ using Setup;
 using FluentAssertions;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
-using Application.Services;
+using CodingBlog.Application.Services;
 using CodingBlog.Presentation.Controllers;
 using Moq;
 using Xunit;
 
-public class PostControllerTest : IClassFixture<TestSetup>
+public class PostControllerTests : IClassFixture<TestSetup>
 {
     private readonly PostController _postController;
     private readonly Mock<IPostService> _postService;
@@ -24,7 +24,7 @@ public class PostControllerTest : IClassFixture<TestSetup>
     private Post _post;
     private PostResponse _postResponse;
 
-    public PostControllerTest(TestSetup setup)
+    public PostControllerTests(TestSetup setup)
     {
         _fixture = setup.Fixture;
 

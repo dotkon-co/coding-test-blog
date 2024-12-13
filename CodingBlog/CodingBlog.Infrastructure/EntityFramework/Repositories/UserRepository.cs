@@ -12,7 +12,7 @@ public class UserRepository : IUserRepository
     public UserRepository(PostgresDBContext context)
         =>  _context = context;
     
-    public async Task<User?> GetByUsername(string username, CancellationToken cancellationToken)
+    public async Task<User?> GetByEmail(string username, CancellationToken cancellationToken)
       => await _context.Users.FirstOrDefaultAsync(u => u.Email == username, cancellationToken);
 
     public async Task<User> Create(User user, CancellationToken cancellationToken)

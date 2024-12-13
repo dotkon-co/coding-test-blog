@@ -1,5 +1,7 @@
 namespace CodingBlog.Presentation.Controllers;
 
+using System.Net;
+using Infrastructure.Extensions;
 using Requests;
 using Application.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,16 +18,25 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public IActionResult Register([FromBody] RegisterRequest request, CancellationToken cancellationToken)
+    [ProducesResponseType( StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(RegisterRequest), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request, CancellationToken cancellationToken)
     {
-        var token = _authService.Register(request.Username, request.Password, cancellationToken);
-        return Ok(new { Token = token });
+        var result = await _authService.Register(request.Username, request.Email, request.Password, cancellationToken);
+    
+        if (result.IsFailed)
+            return BadRequest( string.Join("; ", result.Errors.Select(e => e.Message)).CreateValidationError());
+                
+        return Created();
     }
 
     [HttpPost("login")]
-    public IActionResult Login([FromBody] LoginRequest model, CancellationToken cancellationToken)
+    public async Task<IActionResult> Login([FromBody] LoginRequest model, CancellationToken cancellationToken)
     {
-        var token = _authService.Login(model.Username, model.Password, cancellationToken);
-        return Ok(new { Token = token });
+        var result = await _authService.Login(model.Email, model.Password, cancellationToken);
+        if (result.IsFailed)
+            return Unauthorized(string.Join("; ", result.Errors.Select(e => e.Message)).CreateValidationError(HttpStatusCode.Unauthorized));
+        
+        return Ok(new { Token = result.Value });
     }
 }
