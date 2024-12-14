@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Resultado do Investimento</h2>
+<div mat-dialog-content>  
+  <p *ngIf="data.gross !== null && data.gross !== undefined">{{ 'Valor Bruto: ' + (data.gross | currency: 'BRL') }}</p>
+  <p *ngIf="data.net !== null && data.net !== undefined">{{ 'Valor Líquido: ' + (data.net | currency: 'BRL') }}</p>
+  
+
+  <ng-container *ngIf=" data.messages !== null && data.messages !== undefined && data.messages.length > 0">
+    <h3>Erros:</h3>
+    <ul>
+      <li *ngFor="let message of data.messages">{{ message }}</li>
+    </ul>
+  </ng-container>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Fechar</button>
+</div>
