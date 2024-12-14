@@ -1,53 +1,50 @@
-# Coding Test Dotkon | Projeto de Blog Simples
+# B3 Calculadora de Juros Compostos
 
 ## Descrição
+Este projeto é uma aplicação web para calcular o investimento com base em juros compostos. A aplicação permite que o usuário informe um valor monetário positivo e um prazo em meses (maior que 1) para resgate da aplicação. Após solicitar o cálculo do investimento, a aplicação exibe o resultado bruto e o resultado líquido.
 
-Agradecemos por estar participando do nosso processo seletivo! Estamos muito felizes em ter você por aqui 😃.
-A primeira etapa do processo seletivo é um teste técnico, que está descrito abaixo. Boa sorte! \o/
+## Estrutura do Projeto
+Para tornar o código modular e extensível, o projeto implementa diversos padrões de design e boas práticas, incluindo:
 
-Este projeto consiste na implementação de um sistema básico de blog onde os usuários podem visualizar, criar, editar e excluir postagens. O objetivo é avaliar as habilidades técnicas em C# e o uso do Entity Framework para manipulação de dados.
-
-## Requisitos para a entrega
-    1. Faça um fork deste repositório;
-    2. Realize o teste;
-    3. Adicione seu currículo em PDF na raiz do repositório;
-    4. Envie-nos o PULL-REQUEST para que seja avaliado.
-    
-    OBS: seus dados não ficarão públicos em nosso repositório.
+- **Factory Method**: Seguindo o padrão GoF (Gang of Four), utilizamos o Factory Method para o cálculo de impostos. Esse padrão facilita a separação dos cálculos de impostos em classes distintas, tornando o código modular e mais fácil de manter.
   
-## Funcionalidades
+- **Dictionary para Cálculos de Impostos**: Em vez de utilizar estruturas condicionais (`if` ou `switch`) para decidir qual cálculo de imposto aplicar, utilizamos um `Dictionary` para configurar os diferentes tipos de cálculo de imposto. Essa abordagem permite a adição e manutenção de novos tipos de impostos de maneira simplificada e extensível.
 
-### Requisitos Funcionais
+- **FluentValidation para Validação de Entrada**: Utilizamos a biblioteca **FluentValidation** para validar os valores de entrada. Com essa biblioteca, as regras de validação de campos estão separadas das regras de negócios, facilitando a manutenção e a legibilidade do código.
 
-1. **Autenticação**: 
-    - Usuários devem ser capazes de se registrar e fazer login.
+## Princípios SOLID
+Este projeto segue os princípios do **SOLID** para garantir uma arquitetura robusta e escalável:
 
-2. **Gerenciamento de Postagens**: 
-    - Usuários autenticados podem criar postagens, editar suas próprias postagens e excluir postagens existentes.
+1. **S - Princípio da Responsabilidade Única**: Cada classe ou módulo tem uma única responsabilidade, tornando o código mais organizado e menos suscetível a erros.
+2. **O - Princípio do Aberto/Fechado**: O código é projetado para ser aberto para extensão, mas fechado para modificação. O uso de `Dictionary` e `Factory Method` permite que novos tipos de cálculo sejam adicionados sem modificar o código existente.
+3. **L - Princípio de Substituição de Liskov**: Implementações de classes podem substituir suas classes base sem alterar o comportamento desejado.
+4. **I - Princípio de Segregação de Interface**: As interfaces são projetadas para que os módulos dependam apenas dos métodos necessários.
+5. **D - Princípio de Inversão de Dependência**: O projeto utiliza injeção de dependência para desacoplar classes e facilitar testes e manutenção.
 
-3. **Visualização de Postagens**: 
-    - Qualquer visitante do site pode visualizar as postagens existentes.
+## Tecnologias
+- **Back-end**: C#
+- **Front-end**: Angular
 
-### Requisitos Técnicos
+## Instalação
+Para configurar e rodar o projeto localmente, siga as etapas abaixo:
 
-- **.NET**: Utilize a versão 7, 8 ou 9
-- **Entity Framework**: Utilize o Entity Framework para interagir com o banco de dados e armazenar informações sobre usuários e postagens.
+1. **Baixar o Visual Studio**: [Visual Studio](https://visualstudio.microsoft.com/).
+2. **Instalar o Angular CLI**: Execute o comando abaixo no terminal para instalar o Angular CLI.
+    ```bash
+    npm install -g @angular/cli
+    ```
+3. **Clonar o repositório**:
+    ```bash
+    git clone https://github.com/tarciziojunior/b3.investment.calculator
+    ```
+4. **Configurar o projeto**: Abra o projeto no Visual Studio e siga as instruções de configuração.
 
-### Requisitos Opcionais
+## Uso
+Após configurar o ambiente, siga os passos abaixo para iniciar a aplicação e calcular o retorno de investimento:
 
-- **Arquitetura Monolítica**: Organize as responsabilidades do sistema, como autenticação, gerenciamento de postagens e notificações em tempo real.
-
-- **Princípios SOLID**: Aplique os princípios SOLID, com ênfase no Princípio da Responsabilidade Única (SRP) e no Princípio da Inversão de Dependência (DIP).
-
-- **WebSockets**: Implemente WebSockets para notificações em tempo real, como uma notificação simples na interface do usuário sempre que uma nova postagem for feita.
-
-- **Interface Web Simples**: Crie uma interface web simples para a interação com o sistema.
-
-## Observações Finais
-Certifique-se de que seu código está bem documentado e limpo.
-Inclua qualquer documentação adicional que possa ajudar a entender sua solução (README.md).
-
----
-
-Este teste prático é uma oportunidade para demonstrar suas habilidades em desenvolvimento C#, arquitetura de software e boas práticas de programação. 
-Divirta-se no processo!
+1. **Abrir a solução**: No Visual Studio, abra o arquivo `b3.investment.calculator.sln`.
+2. **Iniciar o servidor**: No Visual Studio, execute o projeto `b3.investment.calculator.Server` como http(Mudar no botão execução do projeto) . Isso iniciará uma API para o cálculo de juros compostos.
+3. **Abrir o terminal do cliente**: No Visual Studio, clique com o botão direito no projeto `b3.investment.calculator.client` e selecione a opção "Abrir no terminal".
+4. **Executar o cliente**: No terminal, execute o comando:
+   ```bash
+   ng serve
