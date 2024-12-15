@@ -1,27 +1,22 @@
-using Microsoft.EntityFrameworkCore.Diagnostics;
+using CodingBlog.Domain.Entities;
+using CodingBlog.Infrastructure.EntityFramework.ModelConfiguration;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodingBlog.Infrastructure.EntityFramework.Configuration;
 
-using Domain.Entities;
-using ModelConfiguration;
-using Microsoft.EntityFrameworkCore;
-
 public class PostgresDBContext : DbContext
 {
-    public DbSet<User> Users { get; set; }
-    public DbSet<Post> Posts { get; set; }
-
     public PostgresDBContext(DbContextOptions<PostgresDBContext> options)
         : base(options)
     {
-       
     }
+
+    public DbSet<User> Users { get; set; }
+    public DbSet<Post> Posts { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
-        
         modelBuilder.ApplyConfiguration(new UserModelConfiguration());
         modelBuilder.ApplyConfiguration(new PostModelConfiguration());
 
