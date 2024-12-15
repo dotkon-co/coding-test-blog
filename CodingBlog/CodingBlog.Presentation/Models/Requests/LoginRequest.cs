@@ -1,6 +1,6 @@
-namespace CodingBlog.Presentation.Controllers.Requests;
-
 using FluentValidation;
+
+namespace CodingBlog.Presentation.Controllers.Requests;
 
 public class LoginRequest
 {
@@ -8,14 +8,14 @@ public class LoginRequest
     public string Password { get; set; }
 }
 
-public class LoginRequestValidator: AbstractValidator<LoginRequest>
+public class LoginRequestValidator : AbstractValidator<LoginRequest>
 {
     public LoginRequestValidator()
     {
         RuleFor(x => x.Email)
             .NotEmpty()
             .EmailAddress();
-        
+
         RuleFor(x => x.Password).NotEmpty();
     }
 }

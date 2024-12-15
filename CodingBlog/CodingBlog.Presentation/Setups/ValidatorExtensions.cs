@@ -1,7 +1,8 @@
-namespace CodingBlog.Presentation.Setups;
-
-using Controllers.Requests;
+using CodingBlog.Presentation.Controllers.Requests;
+using CodingBlog.Presentation.Models.Requests;
 using FluentValidation;
+
+namespace CodingBlog.Presentation.Setups;
 
 public static class ValidatorExtensions
 {

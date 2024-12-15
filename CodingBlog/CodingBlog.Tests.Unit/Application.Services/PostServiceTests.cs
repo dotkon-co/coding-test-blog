@@ -60,6 +60,135 @@ public class PostServiceTests : IClassFixture<TestSetup>
         _postNotificationService.Verify(p => p.SendPostNotificationAsync($"New post: {_post.Title}"), Times.Once);
     }
 
+    [Fact]
+    public async Task Given_get_all_should_return_list_Of_posts()
+    {
+        // Arrange
+        var expectedPosts = _fixture
+            .Build<Post>()
+            .Without(p => p.User)
+            .CreateMany(5)
+            .ToList();
+
+        _postRepository
+            .Setup(repo => repo.GetAll(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(expectedPosts);
+
+        // Act
+        var result = await _postService.GetAll(CancellationToken.None);
+
+        // Assert
+        result.Should().BeEquivalentTo(expectedPosts);
+        _postRepository.Verify(repo => repo.GetAll(CancellationToken.None), Times.Once);
+    }
+
+    [Fact]
+    public async Task Given_get_all_should_return_empty_list_when_repository_returns_empty_list()
+    {
+        // Arrange
+        var expectedPosts = new List<Post>();
+
+        _postRepository
+            .Setup(repo => repo.GetAll(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(expectedPosts);
+
+        // Act
+        var result = await _postService.GetAll(CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task Given_update_should_return_ok_result()
+    {
+        // Arrange
+        var postId = _fixture.Create<int>();
+        var postToUpdate = _fixture
+            .Build<Post>()
+            .Without(p => p.User)
+            .Create();
+
+        var updatedPost = _fixture
+            .Build<Post>()
+            .Without(p => p.User)
+            .Create();
+
+        var expectResult = Result.Ok(updatedPost);
+
+        _postRepository
+            .Setup(repo => repo.Update(postId, postToUpdate, default))
+            .ReturnsAsync(updatedPost);
+
+        // Act
+        var result = await _postService.Update(postId, postToUpdate, default);
+
+        // Assert
+        result.Should().BeEquivalentTo(expectResult);
+    }
+
+    [Fact]
+    public async Task Given_update_with_post_is_not_updated_should_return_fail_result()
+    {
+        // Arrange
+        var postId = _fixture.Create<int>();
+        var postToUpdate = _fixture
+            .Build<Post>()
+            .Without(p => p.User)
+            .Create();
+
+        var expectResult = Result.Fail("Not Update Post");
+
+        _postRepository
+            .Setup(repo => repo.Update(postId, postToUpdate, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Post)null);
+
+        // Act
+        var result = await _postService.Update(postId, postToUpdate, CancellationToken.None);
+
+        // Assert
+        result.Should().BeEquivalentTo(expectResult);
+    }
+
+    [Fact]
+    public async Task Given_delete_should_return_ok_result()
+    {
+        // Arrange
+        var postId = _fixture.Create<int>();
+
+        _postRepository
+            .Setup(repo => repo.Delete(postId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
+
+        var expectedResult = Result.Ok();
+
+        // Act
+        var result = await _postService.Delete(postId, CancellationToken.None);
+
+        // Assert
+        result.Should().BeEquivalentTo(expectedResult);
+    }
+
+    [Fact]
+    public async Task Given_delete_with_post_is_not_deleted_should_return_fail_result()
+    {
+        // Arrange
+        var postId = _fixture.Create<int>();
+
+        _postRepository
+            .Setup(repo => repo.Delete(postId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(false);
+
+        var expectedResult = Result.Fail("Note Delete Post");
+
+        // Act
+        var result = await _postService.Delete(postId, CancellationToken.None);
+
+        // Assert
+        result.Should().BeEquivalentTo(expectedResult);
+    }
+
     private void Setup()
     {
         _post = _fixture.Build<Post>()

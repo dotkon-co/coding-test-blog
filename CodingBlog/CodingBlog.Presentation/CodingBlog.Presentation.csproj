@@ -19,14 +19,18 @@
         </PackageReference>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="7.2.0" />
-        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.2.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="7.2.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.2.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\CodingBlog.Domain\CodingBlog.Domain.csproj" />
-        <ProjectReference Include="..\CodingBlog.Application\CodingBlog.Application.csproj" />
-        <ProjectReference Include="..\CodingBlog.Infrastructure\CodingBlog.Infrastructure.csproj" />
+        <ProjectReference Include="..\CodingBlog.Domain\CodingBlog.Domain.csproj"/>
+        <ProjectReference Include="..\CodingBlog.Application\CodingBlog.Application.csproj"/>
+        <ProjectReference Include="..\CodingBlog.Infrastructure\CodingBlog.Infrastructure.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Models"/>
     </ItemGroup>
 
 </Project>

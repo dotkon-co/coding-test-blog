@@ -1,16 +1,16 @@
-namespace CodingBlog.Infrastructure.EntityFramework.Repositories;
-
-using Domain.Entities;
+using CodingBlog.Domain.Entities;
 using CodingBlog.Domain.Repositories;
-using Configuration;
+using CodingBlog.Infrastructure.EntityFramework.Configuration;
 using Microsoft.EntityFrameworkCore;
+
+namespace CodingBlog.Infrastructure.EntityFramework.Repositories;
 
 public class PostRepository : IPostRepository
 {
     private readonly PostgresDBContext _context;
 
     public PostRepository(PostgresDBContext context)
-      =>  _context = context;
+        => _context = context;
 
     public async Task<List<Post>> GetAll(CancellationToken cancellationToken)
         => await _context.Posts.ToListAsync(cancellationToken);

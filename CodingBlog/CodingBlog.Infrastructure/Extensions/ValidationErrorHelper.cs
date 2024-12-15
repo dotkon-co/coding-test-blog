@@ -1,12 +1,12 @@
 using System.Net;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodingBlog.Infrastructure.Extensions;
 
 public static class ValidationErrorHelper
 {
-    public static ProblemDetails CreateValidationError(this string errorMessage, HttpStatusCode? statusCode = HttpStatusCode.BadRequest)
+    public static ProblemDetails CreateValidationError(this string errorMessage,
+        HttpStatusCode? statusCode = HttpStatusCode.BadRequest)
     {
         return new ProblemDetails
         {

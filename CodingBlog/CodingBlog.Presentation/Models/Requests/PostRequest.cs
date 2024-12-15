@@ -1,6 +1,6 @@
-namespace CodingBlog.Presentation.Controllers.Requests;
-
 using FluentValidation;
+
+namespace CodingBlog.Presentation.Controllers.Requests;
 
 public class PostRequest
 {
@@ -9,7 +9,7 @@ public class PostRequest
     public int UserId { get; set; }
 }
 
-public class PostRequestValidator: AbstractValidator<PostRequest>
+public class PostRequestValidator : AbstractValidator<PostRequest>
 {
     public PostRequestValidator()
     {
@@ -18,4 +18,3 @@ public class PostRequestValidator: AbstractValidator<PostRequest>
         RuleFor(x => x.UserId).NotEmpty();
     }
 }
-

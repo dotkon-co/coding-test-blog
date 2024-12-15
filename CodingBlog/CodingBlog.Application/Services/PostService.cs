@@ -1,15 +1,13 @@
-namespace CodingBlog.Application.Services;
-
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Domain.Entities;
-using Domain.Repositories;
-using Infrastructure.Notification;
+using CodingBlog.Domain.Entities;
+using CodingBlog.Domain.Repositories;
+using CodingBlog.Infrastructure.Notification;
 using FluentResults;
+
+namespace CodingBlog.Application.Services;
 
 public interface IPostService
 {
-    Task<List<Post>> GetAll(CancellationToken cancellationToken);
+    Task<IReadOnlyList<Post>> GetAll(CancellationToken cancellationToken);
     Task<Result<Post>> Create(Post post, CancellationToken cancellationToken);
     Task<Result<Post>> Update(int id, Post post, CancellationToken cancellationToken);
     Task<Result> Delete(int id, CancellationToken cancellationToken);
@@ -17,8 +15,8 @@ public interface IPostService
 
 public class PostService : IPostService
 {
-    private readonly IPostRepository _postRepository;
     private readonly IPostNotificationService _postNotificationService;
+    private readonly IPostRepository _postRepository;
 
     public PostService(IPostRepository postRepository, IPostNotificationService postNotificationService)
     {
@@ -26,7 +24,7 @@ public class PostService : IPostService
         _postNotificationService = postNotificationService;
     }
 
-    public async Task<List<Post>> GetAll(CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<Post>> GetAll(CancellationToken cancellationToken)
         => await _postRepository.GetAll(cancellationToken);
 
     public async Task<Result<Post>> Create(Post post, CancellationToken cancellationToken)
