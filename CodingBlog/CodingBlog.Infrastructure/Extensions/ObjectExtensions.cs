@@ -15,7 +15,7 @@ public static class ObjectExtensions
 
             return mapper.Map<TDestination>(obj);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Log.Error(ex, $"Error while mapping from type '{obj.GetType()}' to type '{typeof(TDestination)}'");
             throw;

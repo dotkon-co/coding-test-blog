@@ -1,15 +1,14 @@
 using CodingBlog.Domain.Repositories;
-using CodingBlog.Infrastructure.EntityFramework.Repositories;
 using CodingBlog.Infrastructure.Notification;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-
-namespace CodingBlog.Infrastructure.Setups;
-
-using EntityFramework.Configuration;
+using CodingBlog.Infrastructure.Repository.Context;
+using CodingBlog.Infrastructure.Repository.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
+
+namespace CodingBlog.Infrastructure.Setups;
 
 public static class InfrastructureDependencies
 {
@@ -20,18 +19,18 @@ public static class InfrastructureDependencies
             .AddNotificationServices(configuration)
             .ConfigureServiceLocator();
 
-    private static IServiceCollection AddNotificationServices(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddNotificationServices(this IServiceCollection services,
+        IConfiguration configuration)
     {
-
         services.AddSignalR();
-        
+
         services.AddScoped<IPostNotificationService, PostNotificationService>();
 
         return services;
     }
 
     private static IServiceCollection AddEntityFrameWork(this IServiceCollection services, IConfiguration configuration)
-    {        
+    {
         var postgresDatabaseSettings = configuration.GetSection("Databases:Postgres");
 
         var connectionString = postgresDatabaseSettings["ConnectionString"];
@@ -52,7 +51,7 @@ public static class InfrastructureDependencies
             });
             opt.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
         });
-        
+
         services.AddScoped<IPostRepository, PostRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
 

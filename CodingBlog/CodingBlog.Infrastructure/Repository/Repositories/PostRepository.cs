@@ -1,9 +1,9 @@
 using CodingBlog.Domain.Entities;
 using CodingBlog.Domain.Repositories;
-using CodingBlog.Infrastructure.EntityFramework.Configuration;
+using CodingBlog.Infrastructure.Repository.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace CodingBlog.Infrastructure.EntityFramework.Repositories;
+namespace CodingBlog.Infrastructure.Repository.Repositories;
 
 public class PostRepository : IPostRepository
 {

@@ -1,8 +1,8 @@
 using CodingBlog.Domain.Entities;
-using CodingBlog.Infrastructure.EntityFramework.ModelConfiguration;
+using CodingBlog.Infrastructure.Repository.ModelConfiguration;
 using Microsoft.EntityFrameworkCore;
 
-namespace CodingBlog.Infrastructure.EntityFramework.Configuration;
+namespace CodingBlog.Infrastructure.Repository.Context;
 
 public class PostgresDBContext : DbContext
 {

@@ -2,7 +2,7 @@ using CodingBlog.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CodingBlog.Infrastructure.EntityFramework.ModelConfiguration;
+namespace CodingBlog.Infrastructure.Repository.ModelConfiguration;
 
 public class PostModelConfiguration : IEntityTypeConfiguration<Post>
 {
