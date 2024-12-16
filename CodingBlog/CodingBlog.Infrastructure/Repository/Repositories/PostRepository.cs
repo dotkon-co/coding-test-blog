@@ -15,6 +15,11 @@ public class PostRepository : IPostRepository
     public async Task<List<Post>> GetAll(CancellationToken cancellationToken)
         => await _context.Posts.ToListAsync(cancellationToken);
 
+    public async Task<Post?> GetById(int id, CancellationToken cancellationToken)
+    {
+        return await _context.Posts.FindAsync(id, cancellationToken);
+    }
+
     public async Task<Post> Create(Post post, CancellationToken cancellationToken)
     {
         _context.Posts.Add(post);

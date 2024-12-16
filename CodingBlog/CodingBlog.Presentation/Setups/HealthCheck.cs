@@ -1,9 +1,9 @@
-namespace CodingBlog.Presentation.Setups;
-
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
 using Serilog;
+
+namespace CodingBlog.Presentation.Setups;
 
 public static class HealthCheck
 {
@@ -31,20 +31,12 @@ public static class HealthCheck
         IConfiguration configuration)
     {
         builder.UseHealthChecks(
-            configuration["Api:Routes:Heartbeat"],
+            configuration["Api:Routes:HealthCheck"],
             new HealthCheckOptions
             {
-                Predicate = _ => false,
+                Predicate = _ => true,
                 ResponseWriter = HealthResponseWriter,
             });
-
-        // builder.UseHealthChecks(
-        //     configuration["Api:Routes:HealthCheck"],
-        //     new HealthCheckOptions
-        //     {
-        //         Predicate = _ => true,
-        //         ResponseWriter = HealthResponseWriter,
-        //     });
 
         return builder;
     }

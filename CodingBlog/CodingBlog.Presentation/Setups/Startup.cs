@@ -1,4 +1,5 @@
 using CodingBlog.Application.Setups;
+using CodingBlog.Infrastructure.Notification;
 using CodingBlog.Infrastructure.Setups;
 using CodingBlog.Presentation.Middlewares;
 using FluentValidation.AspNetCore;
@@ -17,6 +18,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services
+            .AddCors()
             .AddControllers();
 
         services.AddFluentValidationAutoValidation()
@@ -26,24 +28,34 @@ public class Startup
             .AddSwagger()
             .AddValidators()
             .AddAutoMapper();
-        // services.AddHealthChecks(Configuration);
+
+        //   services.AddHealthChecks(Configuration);
+
 
         services
             .AddApplication()
             .AddInfrastructure(Configuration);
     }
 
-    public void Configure(IApplicationBuilder app)
+    public void Configure(WebApplication app)
     {
         app
-            .UseRouting()
-            // .UseHealthChecks(Configuration)
+            .UseRouting();
+
+        app.UseWebSockets();
+
+        app
+            .UseCors("CorsPolicy")
             .UseMiddleware<ExceptionHandlerMiddleware>()
             .UseSwagger()
             .UseSwaggerUI()
-            .UseHttpsRedirection()
+            //    .UseHttpsRedirection()
             .UseAuthentication()
+            //   .UseHealthChecks(Configuration)
             .UseAuthorization()
             .UseEndpoints(endpoints => endpoints.MapControllers());
+
+        app.MapHub<PostHub>("/posthub",
+            options => { options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets; });
     }
 }

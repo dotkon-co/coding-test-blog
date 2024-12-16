@@ -1,16 +1,13 @@
-namespace CodingBlog.Application.Services;
-
-using FluentResults;
-using System;
-using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Domain.Entities;
-using Domain.Repositories;
+using CodingBlog.Domain.Entities;
+using CodingBlog.Domain.Repositories;
+using FluentResults;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
+
+namespace CodingBlog.Application.Services;
 
 public interface IAuthService
 {
@@ -20,8 +17,8 @@ public interface IAuthService
 
 public class AuthService : IAuthService
 {
-    private readonly IUserRepository _userRepository;
     private readonly IConfiguration _configuration;
+    private readonly IUserRepository _userRepository;
 
     public AuthService(IUserRepository userRepository, IConfiguration configuration)
     {
@@ -29,15 +26,15 @@ public class AuthService : IAuthService
         _configuration = configuration;
     }
 
-    public async Task<Result> Register(string username, string email, string password, CancellationToken cancellationToken)
+    public async Task<Result> Register(string username, string email, string password,
+        CancellationToken cancellationToken)
     {
-        
         var saveUser = await _userRepository.GetByEmail(email, cancellationToken);
         if (saveUser is not null)
-           return Result.Fail("This user is already registered.");
+            return Result.Fail("This user is already registered.");
 
-        var user = new User (username, email , BCrypt.Net.BCrypt.HashPassword(password), "Editor" );
-        
+        var user = new User(username, email, BCrypt.Net.BCrypt.HashPassword(password), "Editor");
+
         await _userRepository.Create(user, cancellationToken);
         return Result.Ok();
     }
@@ -53,11 +50,11 @@ public class AuthService : IAuthService
 
     private string GenerateJwtToken(User user)
     {
-        var claims = new[]
+        var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Role, user.Role)
+            new("roles", user.Role),
+            new("username", user.Username),
+            new("userId", user.Id.ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));

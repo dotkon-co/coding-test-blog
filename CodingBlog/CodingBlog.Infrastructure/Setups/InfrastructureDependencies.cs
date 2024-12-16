@@ -16,16 +16,19 @@ public static class InfrastructureDependencies
         AddInfrastructure(this IServiceCollection services, IConfiguration configuration) =>
         services
             .AddEntityFrameWork(configuration)
-            .AddNotificationServices(configuration)
+            .AddNotificationServices()
             .ConfigureServiceLocator();
 
-    private static IServiceCollection AddNotificationServices(this IServiceCollection services,
-        IConfiguration configuration)
+    private static IServiceCollection AddNotificationServices(this IServiceCollection services)
     {
-        services.AddSignalR();
-
         services.AddScoped<IPostNotificationService, PostNotificationService>();
 
+        services.AddSignalR(hubOptions =>
+        {
+            hubOptions.EnableDetailedErrors = true;
+            hubOptions.KeepAliveInterval = TimeSpan.FromSeconds(15);
+            hubOptions.ClientTimeoutInterval = TimeSpan.FromMinutes(1);
+        });
         return services;
     }
 

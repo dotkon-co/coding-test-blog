@@ -8,6 +8,9 @@ namespace CodingBlog.Application.Services;
 public interface IPostService
 {
     Task<IReadOnlyList<Post>> GetAll(CancellationToken cancellationToken);
+
+    Task<Result<Post>> GetById(int id, CancellationToken cancellationToken);
+
     Task<Result<Post>> Create(Post post, CancellationToken cancellationToken);
     Task<Result<Post>> Update(int id, Post post, CancellationToken cancellationToken);
     Task<Result> Delete(int id, CancellationToken cancellationToken);
@@ -26,6 +29,15 @@ public class PostService : IPostService
 
     public async Task<IReadOnlyList<Post>> GetAll(CancellationToken cancellationToken)
         => await _postRepository.GetAll(cancellationToken);
+
+    public async Task<Result<Post>> GetById(int id, CancellationToken cancellationToken)
+    {
+        var result = await _postRepository.GetById(id, cancellationToken);
+
+        return result is null
+            ? Result.Fail("Not Update Post")
+            : Result.Ok(result);
+    }
 
     public async Task<Result<Post>> Create(Post post, CancellationToken cancellationToken)
     {
