@@ -32,7 +32,7 @@ A Coding Blog é uma aplicação full stack desenvolvida com **ASP.NET Core 8** 
 
 - .NET SDK 8 instalado.
 - Node.js (para rodar a aplicação Angular).
-- SQL Server (local ou remoto).
+- PostgresSQL (local ou remoto).
 
 ### **2. Configurações Iniciais**
 
@@ -46,9 +46,13 @@ A Coding Blog é uma aplicação full stack desenvolvida com **ASP.NET Core 8** 
 2. Configure a string de conexão no arquivo `appsettings.json` da aplicação back-end:
 
    ```json
-   "ConnectionStrings": {
-     "DefaultConnection": "Server=localhost;Database=CodingBlogDB;Trusted_Connection=True;"
-   }
+     "Databases": {
+       "Postgres": {
+         "ConnectionString": "Server=localhost;Port=5432;Database=blog;User Id=postgres;Password=postgres",
+         "ConnectionRetryCount": 30,
+         "ConnectionRetryDelay": 30
+       }
+     },
    ```
 
 3. Configure a chaves de JWT no `appsettings.json`:
@@ -169,42 +173,9 @@ ng test
 
 - **Web (Angular 17)** - Interface de acesso dos usuários.
 - **API (ASP.NET Core 8)** - Fornece os endpoints para CRUD de posts e autenticação JWT.
-- **Banco de Dados (SQL Server)** - Armazena as informações de posts e usuários.
+- **Banco de Dados (PostgresSQL)** - Armazena as informações de posts e usuários.
 - **SignalR** - Canal de comunicação em tempo real para notificações de novos posts.
 
-**Diagrama C4**
-
-```markdown
-+------------------------------------------------+
-| Usuario |
-+------------------------------------------------+
-|
-| HTTP Request (Login, CRUD de posts)
-v
-+------------------------------------------------+
-| Angular Frontend (UI) |
-+------------------------------------------------+
-|
-| HTTP Request
-v
-+------------------------------------------------+
-| ASP.NET Core 8 API (Controllers) |
-+------------------------------------------------+
-|
-| SignalR
-v
-+------------------------------------------------+
-| SignalR (Notificação de posts) |
-+------------------------------------------------+
-|
-| Consulta Banco de Dados
-v
-+------------------------------------------------+
-| SQL Server (Banco de Dados) |
-+------------------------------------------------+
-```
-
----
 
 ## **Melhores Práticas Utilizadas**
 
