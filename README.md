@@ -1,53 +1,218 @@
-# Coding Test Dotkon | Projeto de Blog Simples
+# README - Coding Blog Application
 
-## Descrição
+## **Visão Geral**
 
-Agradecemos por estar participando do nosso processo seletivo! Estamos muito felizes em ter você por aqui 😃.
-A primeira etapa do processo seletivo é um teste técnico, que está descrito abaixo. Boa sorte! \o/
-
-Este projeto consiste na implementação de um sistema básico de blog onde os usuários podem visualizar, criar, editar e excluir postagens. O objetivo é avaliar as habilidades técnicas em C# e o uso do Entity Framework para manipulação de dados.
-
-## Requisitos para a entrega
-    1. Faça um fork deste repositório;
-    2. Realize o teste;
-    3. Adicione seu currículo em PDF na raiz do repositório;
-    4. Envie-nos o PULL-REQUEST para que seja avaliado.
-    
-    OBS: seus dados não ficarão públicos em nosso repositório.
-  
-## Funcionalidades
-
-### Requisitos Funcionais
-
-1. **Autenticação**: 
-    - Usuários devem ser capazes de se registrar e fazer login.
-
-2. **Gerenciamento de Postagens**: 
-    - Usuários autenticados podem criar postagens, editar suas próprias postagens e excluir postagens existentes.
-
-3. **Visualização de Postagens**: 
-    - Qualquer visitante do site pode visualizar as postagens existentes.
-
-### Requisitos Técnicos
-
-- **.NET**: Utilize a versão 7, 8 ou 9
-- **Entity Framework**: Utilize o Entity Framework para interagir com o banco de dados e armazenar informações sobre usuários e postagens.
-
-### Requisitos Opcionais
-
-- **Arquitetura Monolítica**: Organize as responsabilidades do sistema, como autenticação, gerenciamento de postagens e notificações em tempo real.
-
-- **Princípios SOLID**: Aplique os princípios SOLID, com ênfase no Princípio da Responsabilidade Única (SRP) e no Princípio da Inversão de Dependência (DIP).
-
-- **WebSockets**: Implemente WebSockets para notificações em tempo real, como uma notificação simples na interface do usuário sempre que uma nova postagem for feita.
-
-- **Interface Web Simples**: Crie uma interface web simples para a interação com o sistema.
-
-## Observações Finais
-Certifique-se de que seu código está bem documentado e limpo.
-Inclua qualquer documentação adicional que possa ajudar a entender sua solução (README.md).
+A Coding Blog é uma aplicação full stack desenvolvida com **ASP.NET Core 8** para o back-end e **Angular 17** para o front-end. O objetivo é fornecer uma plataforma de blog onde usuários podem criar, listar e visualizar posts. A aplicação também conta com **SignalR** para comunicação em tempo real de atualizações de posts.
 
 ---
 
-Este teste prático é uma oportunidade para demonstrar suas habilidades em desenvolvimento C#, arquitetura de software e boas práticas de programação. 
-Divirta-se no processo!
+## **Tecnologias Utilizadas**
+
+**Back-end:**
+
+- **ASP.NET Core 8**: Para a construção da API RESTful.
+- **Entity Framework Core**: Para manipulação e acesso ao banco de dados.
+- **FluentValidation**: Para validação de entradas de dados.
+- **SignalR**: Para comunicação em tempo real (notificações de novos posts).
+
+**Front-end:**
+
+- **Angular 17**: Para a interface do usuário.
+- **Bootstrap**: Para o design responsivo.
+
+**Banco de Dados:**
+
+- **SQL Server**: Banco relacional para persistência dos dados.
+
+---
+
+## **Como Rodar a Aplicação**
+
+### **1. Requisitos Prévios**
+
+- .NET SDK 8 instalado.
+- Node.js (para rodar a aplicação Angular).
+- SQL Server (local ou remoto).
+
+### **2. Configurações Iniciais**
+
+1. Clone o repositório:
+
+   ```bash
+   git clone https://github.com/seu-usuario/coding-blog.git
+   cd coding-blog
+   ```
+
+2. Configure a string de conexão no arquivo `appsettings.json` da aplicação back-end:
+
+   ```json
+   "ConnectionStrings": {
+     "DefaultConnection": "Server=localhost;Database=CodingBlogDB;Trusted_Connection=True;"
+   }
+   ```
+
+3. Configure a chaves de JWT no `appsettings.json`:
+   ```json
+   "Jwt": {
+     "SecretKey": "chave-secreta-com-256-bits",
+     "Issuer": "https://localhost:5001",
+     "Audience": "https://localhost:5001"
+   }
+   ```
+
+---
+
+## **Comandos Importantes**
+
+### **Back-end**
+
+**Criar Migração:**
+
+```bash
+cd CodingBlog.Presentation
+ dotnet ef migrations add InitialMigration --project ../CodingBlog.Infrastructure/ --startup-project .
+```
+
+**Aplicar Migrações e Criar Banco:**
+
+```bash
+cd CodingBlog.Presentation
+ dotnet ef database update --project ../CodingBlog.Infrastructure/ --startup-project .
+```
+
+**Rodar a API:**
+
+```bash
+cd CodingBlog.Presentation
+ dotnet run
+```
+
+Acesse: [https://localhost:5001/swagger](https://localhost:5001/swagger)
+
+---
+
+### **Front-end**
+
+**Instalar dependências:**
+
+```bash
+cd CodingBlog.Frontend
+npm install
+```
+
+**Rodar o Front-end:**
+
+```bash
+ng serve
+```
+
+Acesse: [http://localhost:4200](http://localhost:4200)
+
+---
+
+## **Execução de Testes**
+
+**Testes Unitários (Back-end):**
+
+```bash
+cd CodingBlog.Tests
+ dotnet test --collect:"XPlat Code Coverage"
+```
+
+O coverage será gerado na pasta `TestResults`.
+
+**Testes Unitários (Front-end):**
+
+```bash
+cd CodingBlog.Frontend
+ng test
+```
+
+---
+
+## **Estrutura do Código**
+
+```
+├── CodingBlog.Infrastructure  // Camada de Acesso a Dados (Repository, Migrations)
+├── CodingBlog.Presentation    // Camada de Aplicação (Controllers, Middlewares)
+├── CodingBlog.Domain          // Entidades e Regras de Negócio
+├── CodingBlog.Tests           // Testes Unitários
+├── CodingBlog.Frontend        // Aplicação Angular
+```
+
+---
+
+## **Endpoints da API**
+
+**Autenticação**
+
+- **POST /auth/login** - Autentica o usuário e retorna o token JWT.
+
+**Posts**
+
+- **GET /posts** - Lista todos os posts.
+- **GET /posts/{id}** - Buscar um post por ID.
+- **POST /posts** - Cria um novo post.
+- **PUT /posts/{id}** - Atualiza um post existente.
+- **DELETE /posts/{id}** - Exclui um post existente.
+
+---
+
+## **Modelo C4**
+
+**1. Contexto**
+
+- Um administrador ou editor de conteúdo acessa o sistema (via web) para publicar posts.
+- O sistema envia notificações de novos posts para os clientes que estão logados.
+
+**2. Componentes**
+
+- **Web (Angular 17)** - Interface de acesso dos usuários.
+- **API (ASP.NET Core 8)** - Fornece os endpoints para CRUD de posts e autenticação JWT.
+- **Banco de Dados (SQL Server)** - Armazena as informações de posts e usuários.
+- **SignalR** - Canal de comunicação em tempo real para notificações de novos posts.
+
+**Diagrama C4**
+
+```markdown
++------------------------------------------------+
+| Usuario |
++------------------------------------------------+
+|
+| HTTP Request (Login, CRUD de posts)
+v
++------------------------------------------------+
+| Angular Frontend (UI) |
++------------------------------------------------+
+|
+| HTTP Request
+v
++------------------------------------------------+
+| ASP.NET Core 8 API (Controllers) |
++------------------------------------------------+
+|
+| SignalR
+v
++------------------------------------------------+
+| SignalR (Notificação de posts) |
++------------------------------------------------+
+|
+| Consulta Banco de Dados
+v
++------------------------------------------------+
+| SQL Server (Banco de Dados) |
++------------------------------------------------+
+```
+
+---
+
+## **Melhores Práticas Utilizadas**
+
+- **JWT** para autenticação e autorização.
+- **SignalR** para notificações em tempo real.
+- **CORS** configurado para acesso restrito por origem.
+- **Clean Architecture** separando aplicação em camadas.
+- **Validação** com FluentValidation para garantir a entrada de dados corretos.
+- **Testes Unitários** para garantir a qualidade do software.
+
+---
